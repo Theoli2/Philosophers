@@ -6,12 +6,13 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 00:03:10 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/19 21:45:58 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/19 21:52:54 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
+//SECURISER LES ATOI !!!!!!!
 void	init_data(t_data *data, int argc, char **argv)
 {
 	data->nb_philo = ft_atoi(argv[1]);
