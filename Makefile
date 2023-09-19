@@ -6,7 +6,7 @@
 #    By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/16 17:59:00 by tlivroze          #+#    #+#              #
-#    Updated: 2023/09/14 00:04:23 by tlivroze         ###   ########.fr        #
+#    Updated: 2023/09/19 16:56:15 by tlivroze         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,11 @@ OBJ_PATH 	= obj/
 
 SRC     =   main.c \
 			init.c \
+			free.c \
+			routine.c \
+			utils.c \
+			
+			
 			
 			
 

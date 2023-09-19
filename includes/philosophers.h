@@ -6,7 +6,7 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 18:11:52 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/14 00:40:38 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/19 20:00:30 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_philo
 	pthread_t		thread;
 	int				id;
 	int				nb_eat;
-	long long		last_time_ate;
+	size_t			last_time_ate;
 	bool			is_dead;
 	struct s_data	*data;
 	pthread_mutex_t	*fork1;
@@ -38,21 +38,35 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-	int				nb_philo;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				nb_eat_max;
-	long long		start_time;
-	t_philo			**philo;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	*end;
-	pthread_mutex_t	*write;
-	pthread_mutex_t	*nb_eat;
+	int								nb_philo;
+	int								time_to_die;
+	int								time_to_eat;
+	int								time_to_sleep;
+	int								nb_eat_max;
+	size_t							start_time;
+	t_philo							**philo;
+	pthread_mutex_t					*forks;
+	pthread_mutex_t					end;
+	pthread_mutex_t					write;
+	pthread_mutex_t					nb_eat;
+	pthread_mutex_t					start;
 }			t_data;
 
+//srcs/main.c
+int		main(int argc, char **argv);
+
 //srcs/init.c
-int	init_data(t_data *data, int argc, char **argv);
+int		init(t_data *data, int argc, char **argv);
+
+//srcs/free.c
+void	free_mutex(t_data *data, int i, int failed_fork);
+
+//srcs/routine.c
+void	*routine(void *pointer_to_philo);
+
+//srcs/utils.c
+size_t	gettime(void);
+
 
 
 

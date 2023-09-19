@@ -6,7 +6,7 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 00:03:10 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/14 00:42:23 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/19 20:06:07 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,48 @@ int	init_mutex(t_data *data)
 	int	i;
 
 	i = 0;
-	if (pthread_mutex_init(data->end, NULL))
+	if (pthread_mutex_init(&data->end, NULL))
 		return (1);
-	if (pthread_mutex_init(data->write, NULL))
-		return (free(data->end), 1);
+	if (pthread_mutex_init(&data->write, NULL))
+		return (free(&data->end), 1);
+	if (pthread_mutex_init(&data->nb_eat, NULL))
+		return (free(&data->end), free(&data->write), 1);
+	if (pthread_mutex_init(&data->start, NULL))
+		return (free(&data->end), free(&data->write), free(&data->nb_eat), 1);
 	while (i < data->nb_philo)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL))
 			return (free_mutex(data, 2, i), 1);
+		i++;
+	}
+	return (0);
+}
+
+int	init_philo(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		data->philo[i] = malloc(sizeof(t_philo));
+		if (!data->philo[i])
+			return (free_mutex(data, 2, i), 1);
+		data->philo[i]->id = i + 1;
+		data->philo[i]->nb_eat = 0;
+		data->philo[i]->last_time_ate = 0;
+		data->philo[i]->is_dead = false;
+		data->philo[i]->data = data;
+		if (i % 2 == 0)
+		{
+			data->philo[i]->fork1 = &data->forks[(i + 1) % data->nb_philo];
+			data->philo[i]->fork2 = &data->forks[i];
+		}
+		else
+		{
+			data->philo[i]->fork1 = &data->forks[i];
+			data->philo[i]->fork2 = &data->forks[(i + 1) % data->nb_philo];
+		}
 		i++;
 	}
 	return (0);
@@ -49,4 +83,8 @@ int	init(t_data *data, int ac, char **av)
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
 	if (init_mutex(data))
 		return (free(data->philo), free(data->forks), 1);
+	if (init_philo(data))
+		return (free(data->philo), free(data->forks), 1);
+	printf("init done\n");
+	return (0);
 }
