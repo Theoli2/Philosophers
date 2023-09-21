@@ -6,7 +6,7 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 00:03:10 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/19 21:52:54 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/21 02:31:54 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	init_data(t_data *data, int argc, char **argv)
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
+	data->is_dead = false;
+	data->all_ate = false;
 	if (argc == 6)
 		data->nb_eat_max = ft_atoi(argv[5]);
 	else
@@ -36,6 +38,8 @@ int	init_mutex(t_data *data)
 		return (free(&data->end), 1);
 	if (pthread_mutex_init(&data->nb_eat, NULL))
 		return (free(&data->end), free(&data->write), 1);
+	if (pthread_mutex_init(&data->last_time_ate, NULL))
+		return (free(&data->end), free(&data->write), free(&data->nb_eat), 1);
 	while (i < data->nb_philo)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL))
@@ -58,7 +62,6 @@ int	init_philo(t_data *data)
 		data->philo[i]->id = i + 1;
 		data->philo[i]->nb_eat = 0;
 		data->philo[i]->last_time_ate = 0;
-		data->philo[i]->is_dead = false;
 		data->philo[i]->data = data;
 		if (i % 2 == 0)
 		{
