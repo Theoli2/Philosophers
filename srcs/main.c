@@ -6,7 +6,7 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 19:21:40 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/22 18:45:50 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/22 20:05:38 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	main(int argc, char **argv)
 	data = malloc(sizeof(t_data));
 	if (argc != 5 && argc != 6)
 		return (write (1, "invalid amount of parameters\n", 29), 1);
-	init(data, argc, argv);
+	if (init(data, argc, argv))
+		return (1);
 	i = 0;
 	data->start_time = gettime();
 	if ((int)data->start_time == -1)
@@ -35,5 +36,6 @@ int	main(int argc, char **argv)
 		if (monitoring(data))
 			return (0);
 	}
+	ft_free(data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 18:11:52 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/22 18:44:30 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/22 20:07:20 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,12 @@ size_t	gettime(void);
 int		print(t_philo *philo, char *str);
 int		ft_usleep(t_philo	*philo, size_t time);
 void	thread_join(t_data *data);
+void	ft_free(t_data *data);
 
 //srcs/eat.c
 int		eat(t_philo *philo);
+
+//srcs/ft_atoi_bool.c
+bool	ft_atoi_bool(char *str, int	*nb);
 
 #endif

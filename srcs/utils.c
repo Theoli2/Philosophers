@@ -6,7 +6,7 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 16:55:26 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/22 18:44:25 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/22 20:06:55 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,19 @@ int	print(t_philo *philo, char *str)
 	gettime() - philo->data->start_time, philo->id, str);
 	pthread_mutex_unlock(&philo->data->write);
 	return (0);
+}
+
+void	ft_free(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		free(data->philo[i]);
+		i++;
+	}
+	free(data->philo);
+	free(data->forks);
+	free(data);
 }

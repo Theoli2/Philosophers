@@ -6,25 +6,33 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 00:03:10 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/22 19:03:57 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/22 19:32:30 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
 //SECURISER LES ATOI !!!!!!!
-void	init_data(t_data *data, int argc, char **argv)
+int	init_data(t_data *data, int argc, char **argv)
 {
-	data->nb_philo = ft_atoi(argv[1]);
-	data->time_to_die = ft_atoi(argv[2]);
-	data->time_to_eat = ft_atoi(argv[3]);
-	data->time_to_sleep = ft_atoi(argv[4]);
+	if (ft_atoi_bool(argv[1], &data->nb_philo) == false)
+		return (printf("invalid amount of philosophers\n"), 1);
+	if (ft_atoi_bool(argv[2], &data->time_to_die) == false)
+		return (printf("invalid time to die\n"), 1);
+	if (ft_atoi_bool(argv[3], &data->time_to_eat) == false)
+		return (printf("invalid time to eat\n"), 1);
+	if (ft_atoi_bool(argv[4], &data->time_to_sleep) == false)
+		return (printf("invalid time to sleep\n"), 1);
 	data->is_dead = false;
 	data->all_ate = false;
 	if (argc == 6)
-		data->nb_eat_max = ft_atoi(argv[5]);
+	{
+		if (ft_atoi_bool(argv[5], &data->nb_eat_max) == false)
+			return (write(1, "invalid amount of times to eat\n", 31), 1);
+	}
 	else
 		data->nb_eat_max = -1;
+	return (0);
 }
 
 int	init_mutex(t_data *data)
@@ -78,7 +86,9 @@ int	init_philo(t_data *data)
 
 int	init(t_data *data, int ac, char **av)
 {
-	init_data(data, ac, av);
+	if (init_data(data, ac, av))
+		return (1);
+	printf("%i\n", data->nb_eat_max);
 	data->philo = malloc(sizeof(t_philo *) * data->nb_philo);
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
 	if (init_mutex(data))
