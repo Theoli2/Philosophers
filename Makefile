@@ -6,12 +6,12 @@
 #    By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/16 17:59:00 by tlivroze          #+#    #+#              #
-#    Updated: 2023/09/20 21:54:56 by tlivroze         ###   ########.fr        #
+#    Updated: 2023/09/22 17:36:21 by tlivroze         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			= gcc
-CFLAGS		= -Wextra -Wall -Werror -g3 -fsanitize=thread
+CFLAGS		= -Wextra -Wall -Werror -fsanitize=thread #-g3
 NAME		= philosophers
 BONUS_NAME	= checker
 
@@ -28,8 +28,8 @@ SRC     =   main.c \
 			free.c \
 			routine.c \
 			utils.c \
-			
-			
+			monitoring.c \
+			eat.c \
 			
 			
 

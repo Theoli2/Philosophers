@@ -6,7 +6,7 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 00:03:10 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/21 02:31:54 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/22 19:03:57 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ int	init_mutex(t_data *data)
 		return (1);
 	if (pthread_mutex_init(&data->write, NULL))
 		return (free(&data->end), 1);
-	if (pthread_mutex_init(&data->nb_eat, NULL))
-		return (free(&data->end), free(&data->write), 1);
 	if (pthread_mutex_init(&data->last_time_ate, NULL))
-		return (free(&data->end), free(&data->write), free(&data->nb_eat), 1);
+		return (free(&data->end), free(&data->write), 1);
 	while (i < data->nb_philo)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL))

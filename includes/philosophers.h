@@ -6,7 +6,7 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 18:11:52 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/21 00:07:33 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:44:30 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef struct s_data
 	pthread_mutex_t		last_time_ate;
 	pthread_mutex_t		end;
 	pthread_mutex_t		write;
-	pthread_mutex_t		nb_eat;
 }			t_data;
 
 //srcs/main.c
@@ -65,10 +64,16 @@ void	free_mutex(t_data *data, int i, int failed_fork);
 //srcs/routine.c
 void	*routine(void *pointer_to_philo);
 
+//srcs/monitoring.c
+int		monitoring(t_data *data);
+
 //srcs/utils.c
 size_t	gettime(void);
 int		print(t_philo *philo, char *str);
 int		ft_usleep(t_philo	*philo, size_t time);
+void	thread_join(t_data *data);
 
+//srcs/eat.c
+int		eat(t_philo *philo);
 
 #endif
