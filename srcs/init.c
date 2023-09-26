@@ -6,13 +6,12 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 00:03:10 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/22 19:32:30 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/23 07:05:29 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-//SECURISER LES ATOI !!!!!!!
 int	init_data(t_data *data, int argc, char **argv)
 {
 	if (ft_atoi_bool(argv[1], &data->nb_philo) == false)
@@ -28,7 +27,7 @@ int	init_data(t_data *data, int argc, char **argv)
 	if (argc == 6)
 	{
 		if (ft_atoi_bool(argv[5], &data->nb_eat_max) == false)
-			return (write(1, "invalid amount of times to eat\n", 31), 1);
+			return (printf("invalid amount of times to eat\n"), 1);
 	}
 	else
 		data->nb_eat_max = -1;
@@ -43,9 +42,7 @@ int	init_mutex(t_data *data)
 	if (pthread_mutex_init(&data->end, NULL))
 		return (1);
 	if (pthread_mutex_init(&data->write, NULL))
-		return (free(&data->end), 1);
-	if (pthread_mutex_init(&data->last_time_ate, NULL))
-		return (free(&data->end), free(&data->write), 1);
+		return (pthread_mutex_destroy(&data->end), 1);
 	while (i < data->nb_philo)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL))
@@ -62,22 +59,19 @@ int	init_philo(t_data *data)
 	i = 0;
 	while (i < data->nb_philo)
 	{
-		data->philo[i] = malloc(sizeof(t_philo));
-		if (!data->philo[i])
-			return (free_mutex(data, 2, i), 1);
-		data->philo[i]->id = i + 1;
-		data->philo[i]->nb_eat = 0;
-		data->philo[i]->last_time_ate = 0;
-		data->philo[i]->data = data;
-		if (i % 2 == 0)
+		data->philo[i].id = i + 1;
+		data->philo[i].nb_eat = 0;
+		data->philo[i].last_time_ate = gettime();
+		data->philo[i].data = data;
+		if (i % 2 == 1)
 		{
-			data->philo[i]->fork1 = &data->forks[(i + 1) % data->nb_philo];
-			data->philo[i]->fork2 = &data->forks[i];
+			data->philo[i].fork1 = &data->forks[(i + 1) % data->nb_philo];
+			data->philo[i].fork2 = &data->forks[i];
 		}
 		else
 		{
-			data->philo[i]->fork1 = &data->forks[i];
-			data->philo[i]->fork2 = &data->forks[(i + 1) % data->nb_philo];
+			data->philo[i].fork1 = &data->forks[i];
+			data->philo[i].fork2 = &data->forks[(i + 1) % data->nb_philo];
 		}
 		i++;
 	}
@@ -88,8 +82,7 @@ int	init(t_data *data, int ac, char **av)
 {
 	if (init_data(data, ac, av))
 		return (1);
-	printf("%i\n", data->nb_eat_max);
-	data->philo = malloc(sizeof(t_philo *) * data->nb_philo);
+	data->philo = malloc(sizeof(t_philo) * data->nb_philo);
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
 	if (init_mutex(data))
 		return (free(data->philo), free(data->forks), 1);

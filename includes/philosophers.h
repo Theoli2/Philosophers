@@ -6,7 +6,7 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 18:11:52 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/22 20:07:20 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/26 23:17:09 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 # define PHILOSOPHERS_H
 
 # include <stdio.h>
+# include <unistd.h>
 # include <math.h>
 # include <stdlib.h>
 # include <limits.h>
 # include <stdbool.h>
 # include <pthread.h>
 # include <sys/time.h>
-# include "../libft/libft.h"
 
 struct	s_data;
 
@@ -45,9 +45,8 @@ typedef struct s_data
 	bool				is_dead;
 	bool				all_ate;
 	size_t				start_time;
-	t_philo				**philo;
+	t_philo				*philo;
 	pthread_mutex_t		*forks;
-	pthread_mutex_t		last_time_ate;
 	pthread_mutex_t		end;
 	pthread_mutex_t		write;
 }			t_data;
@@ -79,5 +78,17 @@ int		eat(t_philo *philo);
 
 //srcs/ft_atoi_bool.c
 bool	ft_atoi_bool(char *str, int	*nb);
+
+//srcs/itoa.c
+char	*ft_itoa(int n);
+
+//srcs/atoi.c
+int		ft_atoi(const char *nptr);
+
+//srcs/ft_strncmp.c
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+
+//srcs/ft_strlen.c
+size_t	ft_strlen(const char *s);
 
 #endif

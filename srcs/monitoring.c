@@ -6,7 +6,7 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 17:27:56 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/22 19:03:23 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/23 10:41:40 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,16 @@
 
 int	monitoring_2(t_data *data, int i, int j)
 {
-	if (data->nb_eat_max != -1 && \
-	data->philo[i]->nb_eat >= data->nb_eat_max)
+	if (data->nb_eat_max != -1 && data->philo[i].nb_eat >= data->nb_eat_max)
 		j++;
-	if (data->is_dead == true)
+	if (gettime() - data->philo[i].last_time_ate > (size_t)data->time_to_die)
 	{
-		pthread_mutex_unlock(&data->end);
-		return (thread_join(data), -1);
+		data->is_dead = true;
+		pthread_mutex_lock(&data->write);
+		printf("%zu %i died\n", gettime() - data->start_time,
+			data->philo[i].id);
+		pthread_mutex_unlock(&data->write);
+		return (-1);
 	}
 	return (j);
 }
@@ -32,14 +35,16 @@ int	monitoring(t_data *data)
 
 	i = 0;
 	j = 0;
-	pthread_mutex_lock(&data->end);
 	while (i < data->nb_philo)
 	{
+		pthread_mutex_lock(&data->end);
 		j = monitoring_2(data, i, j);
 		if (j == -1)
-			return (1);
+			return (pthread_mutex_unlock(&data->end), thread_join(data), 1);
+		pthread_mutex_unlock(&data->end);
 		i++;
 	}
+	pthread_mutex_lock(&data->end);
 	if (j == data->nb_philo)
 	{
 		data->all_ate = true;
@@ -49,4 +54,3 @@ int	monitoring(t_data *data)
 	pthread_mutex_unlock(&data->end);
 	return (0);
 }
-
