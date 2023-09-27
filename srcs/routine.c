@@ -6,7 +6,7 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 21:59:52 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/27 04:50:12 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/27 17:34:38 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,6 @@ void	*routine(void *pointer_to_philo)
 	}
 	if (!(philo->id & 1) && philo->data->nb_philo % 2 == 0)
 		usleep(philo->data->time_to_eat * 0.5);
-	// if (philo->id % 2 == 1 && philo->data->nb_philo % 2 == 0)
-	// {
-	// 	ft_usleep(philo, philo->data->time_to_eat);
-	// }
-	// if (philo->data->nb_philo % 2 == 1 && philo->id - 1 == 1)
-	// {
-	// 	ft_usleep(philo, philo->data->time_to_eat);
-	// }
 	while (!eat(philo) && !ft_sleep(philo))
 		;
 	return (NULL);
