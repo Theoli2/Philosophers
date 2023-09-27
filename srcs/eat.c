@@ -6,7 +6,7 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 17:35:42 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/23 07:06:56 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/27 04:37:15 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	eat2(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->end);
 	philo->last_time_ate = gettime();
-	philo->nb_eat++;
 	pthread_mutex_unlock(&philo->data->end);
 	if (ft_usleep(philo, philo->data->time_to_eat))
 	{
@@ -24,6 +23,9 @@ int	eat2(t_philo *philo)
 		pthread_mutex_unlock(philo->fork1);
 		return (1);
 	}
+	pthread_mutex_lock(&philo->data->end);
+	philo->nb_eat++;
+	pthread_mutex_unlock(&philo->data->end);
 	pthread_mutex_unlock(philo->fork2);
 	pthread_mutex_unlock(philo->fork1);
 	return (0);

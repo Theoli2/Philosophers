@@ -6,7 +6,7 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 16:55:26 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/23 10:41:48 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/27 01:45:31 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,8 @@ void	thread_join(t_data *data)
 
 int	ft_usleep(t_philo	*philo, size_t time)
 {
-	size_t	target;
+	size_t const	target = gettime() + time;
 
-	target = gettime() + time;
 	while (gettime() < target)
 	{
 		pthread_mutex_lock(&philo->data->end);
@@ -51,16 +50,17 @@ size_t	gettime(void)
 int	print(t_philo *philo, char *str)
 {
 	pthread_mutex_lock(&philo->data->end);
+	pthread_mutex_lock(&philo->data->write);
 	if (philo->data->is_dead == true || philo->data->all_ate == true)
 	{
+		pthread_mutex_unlock(&philo->data->write);
 		pthread_mutex_unlock(&philo->data->end);
 		return (1);
 	}
-	pthread_mutex_unlock(&philo->data->end);
-	pthread_mutex_lock(&philo->data->write);
 	printf("%zu %d %s",
 		gettime() - philo->data->start_time, philo->id, str);
 	pthread_mutex_unlock(&philo->data->write);
+	pthread_mutex_unlock(&philo->data->end);
 	return (0);
 }
 

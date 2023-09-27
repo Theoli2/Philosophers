@@ -6,7 +6,7 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 00:03:10 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/23 07:05:29 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/27 01:58:15 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	init_philo(t_data *data)
 		data->philo[i].nb_eat = 0;
 		data->philo[i].last_time_ate = gettime();
 		data->philo[i].data = data;
-		if (i % 2 == 1)
+		if (!(i & 1))
 		{
 			data->philo[i].fork1 = &data->forks[(i + 1) % data->nb_philo];
 			data->philo[i].fork2 = &data->forks[i];
