@@ -6,7 +6,7 @@
 /*   By: tlivroze <tlivroze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 19:11:07 by tlivroze          #+#    #+#             */
-/*   Updated: 2023/09/23 05:59:21 by tlivroze         ###   ########.fr       */
+/*   Updated: 2023/09/27 09:03:36 by tlivroze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ bool	ft_atoi_bool(char *str, int	*nb)
 	}
 	*nb = ft_atoi(str);
 	free(str2);
-	return (true);
+	return (*nb > 0);
 }
