@@ -47,7 +47,9 @@ int	monitoring(t_data *data)
 	}
 	if (j == data->nb_philo)
 	{
+		pthread_mutex_lock(&data->end);
 		data->all_ate = true;
+		pthread_mutex_unlock(&data->end);
 		return (thread_join(data), 1);
 	}
 	return (0);
