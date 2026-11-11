@@ -1,0 +1,7 @@
+# Build output
+obj/
+*.o
+philo
+
+# Editor
+.vscode/
